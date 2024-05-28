@@ -19,7 +19,7 @@ jobs:
         run: echo "REPO_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
 
       - name: Push role to ansible-galaxy
-        run: |
+        run: >
           ansible-galaxy role import
           --token ${{secrets.GALAXY_TOKEN}}
           ${{github.REPOSITORY_OWNER}}

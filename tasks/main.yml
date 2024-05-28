@@ -29,11 +29,6 @@
     mode: '0644'
   notify: restart nginx
 
-- name: Assert index.html file path is passed
-  assert:
-    that: html_file_path is defined
-    msg: "HTML file path is not provided"
-
 - name: change index.html
   ansible.builtin.copy:
     src: "{{ html_file_path }}"

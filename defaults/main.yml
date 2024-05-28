@@ -1,0 +1,4 @@
+---
+domain: "default_domain"
+main_server: true
+html_file_path: "../files/index.html"

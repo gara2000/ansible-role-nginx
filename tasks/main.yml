@@ -1,0 +1,43 @@
+---
+- name: Install nginx package
+  apt:
+    update_cache: true
+    pkg:
+      - nginx
+    state: present
+
+- name: "Create www directory for your virtualhost"
+  ansible.builtin.file:
+    path: /var/www/{{ domain }}
+    state: directory
+    mode: '0775'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Delete default nginx site configuration
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: restart nginx
+
+- name: Deploy new site configuration
+  ansible.builtin.template:
+    src: templates/devops.conf.j2
+    dest: /etc/nginx/sites-enabled/{{ domain }}
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart nginx
+
+- name: Assert index.html file path is passed
+  assert:
+    that: html_file_path is defined
+    msg: "HTML file path is not provided"
+
+- name: change index.html
+  ansible.builtin.copy:
+    src: "{{ html_file_path }}"
+    dest: "/var/www/{{domain}}/index.html"
+    mode: '0775'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

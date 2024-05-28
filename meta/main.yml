@@ -1,0 +1,11 @@
+galaxy_info:
+  author: gara
+  description: nginx installation, configuration and ssl configuration
+  license: MIT
+
+  min_ansible_version: 2.1
+
+  galaxy_tags: 
+    - nginx
+    - ssl
+            

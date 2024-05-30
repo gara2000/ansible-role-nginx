@@ -22,3 +22,10 @@
         dest: "{{ molecule_instance_config }}"
         mode: "0600"
       when: server.changed | default(false) | bool  # noqa no-handler
+    
+    - name: Remove platforms
+      community.docker.docker_container:
+        name: "{{ item.name }}"
+        state: absent
+      loop: "{{ molecule_yml.platforms }}"
+

@@ -20,10 +20,18 @@
     state: absent
   notify: restart nginx
 
-- name: Deploy new site configuration
+- name: Rescue block
+  block:
+    - name: Include NGINX configuration files
+      ansible.builtin.template:
+        src: templates/{{ item }}.j2
+        dest: /etc/nginx/conf.d/{{ item }}
+      with_items: "{{ includes }}"
+
+- name: Set up main NGINX configuration
   ansible.builtin.template:
-    src: templates/devops.conf.j2
-    dest: /etc/nginx/sites-enabled/{{ domain }}
+    src: templates/nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
     owner: root
     group: root
     mode: '0644'
@@ -36,3 +44,8 @@
     mode: '0775'
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
+
+- name: test NGINX configuration
+  ansible.builtin.command: nginx -t
+  changed_when: false
+  notify: restart nginx

@@ -1,0 +1,17 @@
+{% for module in modules %}
+load_module /etc/nginx/modules/{{ module }};
+{% endfor %}
+
+user root;
+worker_processes auto;
+
+error_log /var/log/nginx/error.log notice;
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+{% for conf_file in includes %}
+include /etc/nginx/conf.d/{{ conf_file }};
+{% endfor %}

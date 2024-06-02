@@ -1,8 +1,8 @@
-# {% for module in enabled_modules %}
-# load_module /etc/nginx/modules/{{ module }};
-# {% endfor %}
+{% for module in enabled_modules %}
+load_module /usr/lib/nginx/modules/{{ module }};
+{% endfor %}
 
-user root;
+user www-data;
 worker_processes auto;
 
 error_log /var/log/nginx/error.log notice;

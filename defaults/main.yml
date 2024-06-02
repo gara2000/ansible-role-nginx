@@ -3,8 +3,8 @@ domain: "default_domain"
 main_server: true
 
 # main Website 
-context: "."
-html_file_path: "../files/index.html"
+context: "{{ role_path }}"
+html_file: "index.html"
 
 # Servers
 servers: 

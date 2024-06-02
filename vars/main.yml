@@ -1,2 +1,8 @@
 ---
 # Add role variables here
+includes:
+  - rtmp
+dependencies:
+  - libnginx-mod-rtmp
+enabled_modules:
+  - ngx_rtmp_module.so

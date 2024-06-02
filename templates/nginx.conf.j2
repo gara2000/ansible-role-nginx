@@ -1,6 +1,6 @@
-{% for module in modules %}
-load_module /etc/nginx/modules/{{ module }};
-{% endfor %}
+# {% for module in enabled_modules %}
+# load_module /etc/nginx/modules/{{ module }};
+# {% endfor %}
 
 user root;
 worker_processes auto;
@@ -12,6 +12,9 @@ events {
     worker_connections 1024;
 }
 
-{% for conf_file in includes %}
-include /etc/nginx/conf.d/{{ conf_file }};
+
+{% for server in servers %}
+{{ server }} {
+    include /etc/nginx/sites-enabled/{{ server }}
+}
 {% endfor %}

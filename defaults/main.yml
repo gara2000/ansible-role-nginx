@@ -1,7 +1,13 @@
 ---
 domain: "default_domain"
 main_server: true
+
+# main Website 
+context: "."
 html_file_path: "../files/index.html"
-includes:
-  - default_http.conf
-modules: []
+
+# Servers
+servers: 
+  - http
+dependencies: []
+enabled_modules: []

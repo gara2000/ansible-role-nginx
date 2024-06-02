@@ -6,6 +6,9 @@
       - nginx
     state: present
 
+- include_tasks: install_dependencies.yml
+  when: dependencies | length > 0
+
 - name: "Create www directory for your virtualhost"
   ansible.builtin.file:
     path: /var/www/{{ domain }}
@@ -20,13 +23,20 @@
     state: absent
   notify: restart nginx
 
-- name: Rescue block
-  block:
-    - name: Include NGINX configuration files
-      ansible.builtin.template:
-        src: templates/{{ item }}.j2
-        dest: /etc/nginx/conf.d/{{ item }}
-      with_items: "{{ includes }}"
+- name: Set up sites available 
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: /etc/nginx/sites-available/{{ item }}
+  with_items: "{{ servers }}"
+  notify: restart nginx
+
+- name:  Set up sites enabled
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ item }}"
+    dest: "/etc/nginx/sites-enabled/{{ item }}"
+    state: link
+  with_items: "{{ servers }}"
+  notify: restart nginx
 
 - name: Set up main NGINX configuration
   ansible.builtin.template:

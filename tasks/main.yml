@@ -25,7 +25,7 @@
 
 - name: Set up sites available 
   ansible.builtin.template:
-    src: "{{ item }}.j2"
+    src: "{{ context }}/templates/{{ item }}.j2"
     dest: /etc/nginx/sites-available/{{ item }}
   with_items: "{{ servers }}"
   notify: restart nginx
@@ -47,9 +47,9 @@
     mode: '0644'
   notify: restart nginx
 
-- name: change index.html
-  ansible.builtin.copy:
-    src: "{{ html_file_path }}"
+- name: Change index.html
+  ansible.builtin.template:
+    src: "{{ context }}/templates/{{ html_file }}"
     dest: "/var/www/{{domain}}/index.html"
     mode: '0775'
     owner: "{{ ansible_user }}"

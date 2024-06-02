@@ -1,7 +1,8 @@
 NGINX
 =========
 
-nginx installation, and configuration 
+nginx installation, and configuration  
+Works with `gara2000.ssl_cert` role, version `v1.0.0`, for deploying an SSL certification  
 
 Requirements
 ------------

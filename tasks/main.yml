@@ -49,7 +49,7 @@
 
 - name: Change index.html
   ansible.builtin.template:
-    src: "{{ context }}/templates/{{ html_file }}"
+    src: "{{ context }}/templates/{{ html_file }}.j2"
     dest: "/var/www/{{domain}}/index.html"
     mode: '0775'
     owner: "{{ ansible_user }}"
